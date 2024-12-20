@@ -270,8 +270,22 @@ function isContainNumber(num, digit) {
  *  [2, 3, 9, 5] => 2       => 2 + 3 === 5 then balance element is 9 and its index = 2
  *  [1, 2, 3, 4, 5] => -1   => no balance element
  */
-function getBalanceIndex(/* arr */) {
-  throw new Error('Not implemented');
+function getBalanceIndex(arr) {
+  let sumLeft;
+  let sumRight;
+  let res = -1;
+  for (let i = 1; i < arr.length - 1; i += 1) {
+    sumLeft = 0;
+    sumRight = 0;
+    for (let j = i - 1; j >= 0; j -= 1) {
+      sumLeft += arr[j];
+    }
+    for (let j = i + 1; j < arr.length; j += 1) {
+      sumRight += arr[j];
+    }
+    if (sumLeft === sumRight) res = i;
+  }
+  return res;
 }
 
 /**
@@ -295,8 +309,51 @@ function getBalanceIndex(/* arr */) {
  *          [10, 9,  8,  7]
  *        ]
  */
-function getSpiralMatrix(/* size */) {
-  throw new Error('Not implemented');
+function getSpiralMatrix(size) {
+  const mtx = [];
+  for (let i = 0; i < size; i += 1) mtx[i] = [];
+
+  let direction = 'right';
+  let row = 0;
+  let col = -1;
+  let elem = 1;
+  let sum = size * size;
+  while (sum > 0) {
+    if (direction === 'right') {
+      col += 1;
+      mtx[row][col] = elem;
+      elem += 1;
+      sum -= 1;
+      if (row + col === size - 1) {
+        direction = 'down';
+      }
+    } else if (direction === 'down') {
+      row += 1;
+      mtx[row][col] = elem;
+      elem += 1;
+      sum -= 1;
+      if (row - col === 0) {
+        direction = 'left';
+      }
+    } else if (direction === 'left') {
+      col -= 1;
+      mtx[row][col] = elem;
+      elem += 1;
+      sum -= 1;
+      if (row + col === size - 1) {
+        direction = 'up';
+      }
+    } else {
+      row -= 1;
+      mtx[row][col] = elem;
+      elem += 1;
+      sum -= 1;
+      if (row - col === 1) {
+        direction = 'right';
+      }
+    }
+  }
+  return mtx;
 }
 
 /**
